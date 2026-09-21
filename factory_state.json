@@ -1,12 +1,12 @@
 {
-  "timestamp": 1790009689.97,
-  "elapsed_time": 62.2,
+  "timestamp": 1790015041.33,
+  "elapsed_time": 4046.4,
   "bottleneck": {
     "machine": "Levha Makinesi",
-    "utilization": 94.38
+    "utilization": 99.5
   },
   "wip": {
-    "Bobin Bandi": 0,
+    "Bobin Bandi": 20,
     "Paketleme Bandi": 0
   },
   "machines": [
@@ -14,55 +14,55 @@
       "id": 1,
       "name": "Levha Makinesi",
       "status": "RUNNING",
-      "utilization": 94.38,
-      "good_produced": 2,
-      "scrap_produced": 0,
-      "total_produced": 2
+      "utilization": 99.5,
+      "good_produced": 126,
+      "scrap_produced": 8,
+      "total_produced": 134
     },
     {
       "id": 2,
       "name": "Dilme A",
       "status": "RUNNING",
-      "utilization": 48.41,
-      "good_produced": 1,
-      "scrap_produced": 1,
-      "total_produced": 2
+      "utilization": 98.32,
+      "good_produced": 253,
+      "scrap_produced": 11,
+      "total_produced": 264
     },
     {
       "id": 3,
       "name": "Dilme B",
       "status": "RUNNING",
-      "utilization": 0.0,
-      "good_produced": 0,
-      "scrap_produced": 0,
-      "total_produced": 0
+      "utilization": 97.44,
+      "good_produced": 253,
+      "scrap_produced": 9,
+      "total_produced": 262
     },
     {
       "id": 4,
       "name": "Paketleme 1",
       "status": "WAITING_INPUT",
-      "utilization": 5.3,
-      "good_produced": 1,
-      "scrap_produced": 0,
-      "total_produced": 1
+      "utilization": 16.87,
+      "good_produced": 159,
+      "scrap_produced": 10,
+      "total_produced": 169
     },
     {
       "id": 5,
       "name": "Paketleme 2",
       "status": "WAITING_INPUT",
-      "utilization": 0.0,
-      "good_produced": 0,
-      "scrap_produced": 0,
-      "total_produced": 0
+      "utilization": 16.26,
+      "good_produced": 164,
+      "scrap_produced": 3,
+      "total_produced": 167
     },
     {
       "id": 6,
       "name": "Paketleme 3",
       "status": "WAITING_INPUT",
-      "utilization": 0.0,
-      "good_produced": 0,
-      "scrap_produced": 0,
-      "total_produced": 0
+      "utilization": 17.21,
+      "good_produced": 162,
+      "scrap_produced": 8,
+      "total_produced": 170
     }
   ]
 }
