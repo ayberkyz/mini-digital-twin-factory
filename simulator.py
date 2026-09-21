@@ -1,6 +1,7 @@
 import asyncio
 import random
 import time
+import json
 
 class Machine:
     def __init__(self, machine_id, name, cycle_time, input_queue=None, output_queue=None, batch_size=1, variance=1.0):
@@ -21,6 +22,18 @@ class Machine:
         self.total_breakdown_time = 0.0 
         
         self.status = "IDLE"
+
+    def to_dict(self, elapsed_time):
+        utilization = (self.total_busy_time / elapsed_time) * 100 if elapsed_time > 0 else 0.0
+        return {
+            "id": self.machine_id,
+            "name": self.name,
+            "status": self.status,
+            "utilization": round(utilization, 2),
+            "good_produced": self.good_produced,
+            "scrap_produced": self.scrap_produced,
+            "total_produced": self.total_produced
+        }
 
     async def start_production(self):
         print(f"[{self.name}] Makine/Istasyon Acildi, Hazir.")
@@ -83,35 +96,57 @@ async def factory_dashboard(machines, queues, interval=5):
         await asyncio.sleep(interval)
         elapsed_time = time.time() - start_time
 
+        # 1. Kuyruklar (WIP)
+        wip_data = {q_name: q.qsize() for q_name, q in queues.items()}
+
+        # 2. Makineler & Darbogaz Tespiti
+        highest_utilization = -1.0
+        bottleneck_machine = None
+        machines_data = []
+
+        for m in machines:
+            m_dict = m.to_dict(elapsed_time)
+            machines_data.append(m_dict)
+            if m_dict["utilization"] > highest_utilization:
+                highest_utilization = m_dict["utilization"]
+                bottleneck_machine = m.name
+
+        # 3. JSON Snapshot Paketi
+        snapshot = {
+            "timestamp": round(time.time(), 2),
+            "elapsed_time": round(elapsed_time, 1),
+            "bottleneck": {
+                "machine": bottleneck_machine,
+                "utilization": highest_utilization
+            },
+            "wip": wip_data,
+            "machines": machines_data
+        }
+
+        # Dosyaya yazma (Atomic state dump)
+        with open("factory_state.json", "w", encoding="utf-8") as f:
+            json.dump(snapshot, f, ensure_ascii=False, indent=2)
+
+        # Konsola kisa ozet
         print("\n" + "=" * 70)
         print(f"FABRIKA CANLI DURUM RAPORU (Calisma Suresi: {elapsed_time:.1f}s)")
         print("=" * 70)
-
-        # 1. WIP / Bant Stok Durumu
         print("--- ARA STOK / BANTLAR (WIP) ---")
-        for q_name, q in queues.items():
-            print(f"  Bant: {q_name:<18} | Stok: {q.qsize()} adet")
+        for q_name, count in wip_data.items():
+            print(f"  Bant: {q_name:<18} | Stok: {count} adet")
 
-        # 2. Makine Performansi ve Darbogaz Tespiti
         print("\n--- MAKINE KULLANIMLARI & CIKTILAR ---")
-        highest_utilization = -1.0
-        bottleneck_machine = None
-
-        for m in machines:
-            utilization = (m.total_busy_time / elapsed_time) * 100 if elapsed_time > 0 else 0
-            if utilization > highest_utilization:
-                highest_utilization = utilization
-                bottleneck_machine = m.name
-
+        for m in machines_data:
             print(
-                f"  {m.name:<18} | Durum: {m.status:<14} "
-                f"| Kullanim: %{utilization:5.1f} "
-                f"| Saglam: {m.good_produced:<3} | Hurda: {m.scrap_produced:<2}"
+                f"  {m['name']:<18} | Durum: {m['status']:<14} "
+                f"| Kullanim: %{m['utilization']:5.1f} "
+                f"| Saglam: {m['good_produced']:<3} | Hurda: {m['scrap_produced']:<2}"
             )
 
         print("-" * 70)
         if bottleneck_machine:
             print(f"DARBOGAZ (BOTTLENECK): {bottleneck_machine} (%{highest_utilization:.1f} Doluluk)")
+        print(f"[BILGI] Canli veri 'factory_state.json' dosyasina yazildi.")
         print("=" * 70 + "\n")
 
 

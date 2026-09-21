@@ -1,0 +1,68 @@
+{
+  "timestamp": 1790009689.97,
+  "elapsed_time": 62.2,
+  "bottleneck": {
+    "machine": "Levha Makinesi",
+    "utilization": 94.38
+  },
+  "wip": {
+    "Bobin Bandi": 0,
+    "Paketleme Bandi": 0
+  },
+  "machines": [
+    {
+      "id": 1,
+      "name": "Levha Makinesi",
+      "status": "RUNNING",
+      "utilization": 94.38,
+      "good_produced": 2,
+      "scrap_produced": 0,
+      "total_produced": 2
+    },
+    {
+      "id": 2,
+      "name": "Dilme A",
+      "status": "RUNNING",
+      "utilization": 48.41,
+      "good_produced": 1,
+      "scrap_produced": 1,
+      "total_produced": 2
+    },
+    {
+      "id": 3,
+      "name": "Dilme B",
+      "status": "RUNNING",
+      "utilization": 0.0,
+      "good_produced": 0,
+      "scrap_produced": 0,
+      "total_produced": 0
+    },
+    {
+      "id": 4,
+      "name": "Paketleme 1",
+      "status": "WAITING_INPUT",
+      "utilization": 5.3,
+      "good_produced": 1,
+      "scrap_produced": 0,
+      "total_produced": 1
+    },
+    {
+      "id": 5,
+      "name": "Paketleme 2",
+      "status": "WAITING_INPUT",
+      "utilization": 0.0,
+      "good_produced": 0,
+      "scrap_produced": 0,
+      "total_produced": 0
+    },
+    {
+      "id": 6,
+      "name": "Paketleme 3",
+      "status": "WAITING_INPUT",
+      "utilization": 0.0,
+      "good_produced": 0,
+      "scrap_produced": 0,
+      "total_produced": 0
+    }
+  ]
+}
